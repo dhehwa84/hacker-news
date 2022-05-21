@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/{type}', [NewsController::class, 'index']);
+Route::get('/', [NewsController::class, 'index']);
+
+// Route::get('/', function()
+// {
+//     return view('greeting', ['name' => 'James']);
+// });
