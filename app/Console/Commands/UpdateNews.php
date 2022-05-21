@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Comment;
 use App\Models\News;
 use Illuminate\Console\Command;
 
@@ -44,9 +45,9 @@ class UpdateNews extends Command
      */
     public function handle()
     {
-        $client = new Client(array(
-            'base_uri' => 'https://hacker-news.firebaseio.com'
-        ));
+        // $client = new Client(array(
+        //     'base_uri' => 'https://hacker-news.firebaseio.com'
+        // ));
 
         $endpoints = array(
             'top' => '/v0/topstories.json',
@@ -56,13 +57,15 @@ class UpdateNews extends Command
 
         foreach($endpoints as $type => $endpoint){
 
-            $response = $client->get($endpoint);
+            $response = $this->fetchItem($endpoint);
+            //$response = $client->get($endpoint);
             $result = $response->getBody();
 
             $items = json_decode($result, true);
                     
             foreach($items as $id){
-                $item_res = $client->get("/v0/item/" . $id . ".json");
+                $item_res = $this->fetchItem("/v0/item/" . $id . ".json");
+                //$item_res = $client->get("/v0/item/" . $id . ".json");
                 $item_data = json_decode($item_res->getBody(), true);
 
                 if(!empty($item_data)){
@@ -86,23 +89,65 @@ class UpdateNews extends Command
                         $item['url'] = $item_data['url'];
                     }
                     
-                    $db_item = News::where('id', '=', $id)
-                            ->first();
+                    $db_item = (new News())->getNewsItem($id);
 
                     if(empty($db_item)){
 
-                        News::insert($item);
+                        $newInsert = (new News())->insertNewsItem(($item));
 
                     }else{
                         
-                        News::where('id', $id)
-                            ->update($item);
+                        $updateResult = (new News())->updateNewsItem($item);
+                    }
+
+                    // store children
+                    if(isset($item_data['kids'])) {
+                      $this->recursivelyStoreChildren($item_data['kids']);
                     }
                 }
             }
         }
         $this->info('Done fetching');
         return 'ok';
+    }
+
+    public function recursivelyStoreChildren($kids)
+    {
+        foreach ($kids as  $id) {
+            $response = $this->fetchItem("/v0/item/" . $id . ".json");
+            $comment = json_decode($response->getBody(), true);
+
+            $item = array(  
+                'id' => $comment['id'],
+                'user' => isset($comment['by']) ? $comment['by'] : '',
+                'parent_id' => $comment['parent'],
+                'comment' => isset($comment['text']) ? $comment['text'] : '',
+                'item_type' => $comment['type']
+            );
+
+            $db_item = (new Comment())->getCommentItem($id);
+
+            if(empty($db_item)){
+
+                $newInsert = (new Comment())->insertCommentItem(($item));
+
+            }else{
+                
+                $updateResult = (new Comment())->updateCommentItem($item);
+            }
+
+            if(isset($comment['kids'])){
+                $this->recursivelyStoreChildren($comment['kids']);
+            }
+        }
+    }
+
+    public function fetchItem($endpoint)
+    {
+        $client = new Client(array(
+            'base_uri' => 'https://hacker-news.firebaseio.com'
+        ));
+        return $client->get($endpoint);
     }
 
 }
