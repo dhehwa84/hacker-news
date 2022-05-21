@@ -2,13 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\GetNewsComments;
 use App\Models\Comment;
 use App\Models\News;
 use Illuminate\Console\Command;
 
-use DB;
-
 use GuzzleHttp\Client;
+use URLHelper;
 
 class UpdateNews extends Command
 {
@@ -57,14 +57,14 @@ class UpdateNews extends Command
 
         foreach($endpoints as $type => $endpoint){
 
-            $response = $this->fetchItem($endpoint);
+            $response = (new URLHelper())->fetchItem($endpoint);
             //$response = $client->get($endpoint);
             $result = $response->getBody();
 
             $items = json_decode($result, true);
                     
             foreach($items as $id){
-                $item_res = $this->fetchItem("/v0/item/" . $id . ".json");
+                $item_res = (new URLHelper())->fetchItem("/v0/item/" . $id . ".json");
                 //$item_res = $client->get("/v0/item/" . $id . ".json");
                 $item_data = json_decode($item_res->getBody(), true);
 
@@ -102,7 +102,8 @@ class UpdateNews extends Command
 
                     // store children
                     if(isset($item_data['kids'])) {
-                      $this->recursivelyStoreChildren($item_data['kids']);
+                        dispatch(new GetNewsComments($item_data['kids']));
+                      //$this->recursivelyStoreChildren($item_data['kids']);
                     }
                 }
             }
@@ -114,7 +115,7 @@ class UpdateNews extends Command
     public function recursivelyStoreChildren($kids)
     {
         foreach ($kids as  $id) {
-            $response = $this->fetchItem("/v0/item/" . $id . ".json");
+            $response = (new URLHelper())->fetchItem("/v0/item/" . $id . ".json");
             $comment = json_decode($response->getBody(), true);
 
             $item = array(  
@@ -140,14 +141,6 @@ class UpdateNews extends Command
                 $this->recursivelyStoreChildren($comment['kids']);
             }
         }
-    }
-
-    public function fetchItem($endpoint)
-    {
-        $client = new Client(array(
-            'base_uri' => 'https://hacker-news.firebaseio.com'
-        ));
-        return $client->get($endpoint);
     }
 
 }
