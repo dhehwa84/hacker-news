@@ -25,7 +25,7 @@
             <li class="item">
                 <span class="item-score">{{ $item->score }}</span>
                 <a  href="/get-news/{{ $item->id }}">
-                    <span class="item-title hint--bottom" data-hint="{{ str_limit(strip_tags($item->description), 160) }}">{{ $item->title }}</span>
+                    <span class="item-title hint--bottom" data-hint="{{ str_limit(strip_tags($item->description), 160) }}">{{ $item->hasTitle()? $item->title : '--'}}</span>
                     <span class="item-info">posted {{ \Carbon\Carbon::parse($item->time_stamp)->diffForHumans() }} by {{ $item->username }}</span>
                 </a>
             </li>

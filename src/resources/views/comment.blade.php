@@ -11,6 +11,7 @@
                             @include('comment', array('innerChild'=>$child->all_children))
                         @endif
                     @endif
+                    <hr>
                 </li>
             @endforeach 
         </ul>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\News;
 use Illuminate\Http\Request;
+use  App\Classes\NewsItem;
 
 class NewsController extends Controller
 {
@@ -20,7 +21,9 @@ class NewsController extends Controller
 
         $items = News::where('is_' . $type, true)
             ->orderBy('time_stamp', 'DESC')
-            ->get();
+            ->get()->map(function ($item) {
+                return new NewsItem($item);
+            });
 
         $page_data = array(
             'title' => $type,
@@ -37,8 +40,7 @@ class NewsController extends Controller
             ->find($id);
         if($result) {
             $page_data = array(
-                'title' => $result['title'],
-                'comments' => $result->comments
+                'news' => new NewsItem($result)
             );
     
             //return $page_data;

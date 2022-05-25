@@ -17,7 +17,7 @@ class UpdateNews extends Command
      *
      * @var string
      */
-    protected $signature = 'quote:daily';
+    protected $signature = 'quote:hourly';
 
     /**
      * The console command description.
