@@ -1,19 +1,10 @@
-# Ariscu Mobile
-
-Take your safety, health, environment and quality (SHEQ) management from the office to the field.
+# Hacker News
 
 ## Table of Contents
 
 - [Pre-requisites](#pre-requisites)
 - [Folder Structure](#folder-structure)
 - [Developing](#developing)
-- [Syntax Highlighting in the Editor](#syntax-highlighting-in-the-editor)
-- [Displaying Lint Output in the Editor](#displaying-lint-output-in-the-editor)
-- [Installing a Dependency](#installing-a-dependency)
-- [Importing a Component](#importing-a-component)
-- [Adding Custom Environment Variables](#adding-custom-environment-variables)
-- [Semantic Versioning](#semantic-versioning)
-  - [`CHANGELOG.md` template](#changelog.md-template)
 
 ## Pre-requisites
 The following are needed prior to the setup
