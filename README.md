@@ -4,15 +4,8 @@ Take your safety, health, environment and quality (SHEQ) management from the off
 
 ## Table of Contents
 
+- [Pre-requisites](#pre-requisites)
 - [Folder Structure](#folder-structure)
-- [Available Commands](#available-scripts)
-  - [cp .sample.env .env](#yarn-run-android)
-  - [docker-compose build](#yarn-run-android)
-  - [docker-compose up](#yarn-run-android)
-  - [docker-compose exec php php artisan:migrate](#yarn-start)
-  - [docker-compose exec php php artisan serve](#yarn-start)
-  - [docker-compose exec php php artisan schedule:run](#yarn-run-android)
-  - [docker-compose exec php php artisan queue:work](#yarn-run-ios)
 - [Developing](#developing)
 - [Syntax Highlighting in the Editor](#syntax-highlighting-in-the-editor)
 - [Displaying Lint Output in the Editor](#displaying-lint-output-in-the-editor)
@@ -21,6 +14,14 @@ Take your safety, health, environment and quality (SHEQ) management from the off
 - [Adding Custom Environment Variables](#adding-custom-environment-variables)
 - [Semantic Versioning](#semantic-versioning)
   - [`CHANGELOG.md` template](#changelog.md-template)
+
+## Pre-requisites
+The following are needed prior to the setup
+<ol>
+  <li> [ Laravel ](https://laravel.com/docs/7.x) </li>
+  <li> [Docker]() </li>
+  <li> [This is an external link to genome.gov](https://www.genome.gov/)  </li>
+</ol>
 
 ## Folder Structure
 
@@ -52,18 +53,68 @@ hacker-news/
 **Follow the following steps to run the app**
 
 ```bash
-$ git clone https://github.com/scriptjumper/ariscu-mobile.git
+$ git https://github.com/dhehwa84/hacker-news.git
 ```
 
 **Install**
 
 ```bash
-$ cd ariscu-mobile
-$ cp .env.sample .env
-$ yarn install
+$ cd hacker-news
+$ 
+$ 
+$ 
+$ 
+$ 
+$ 
+$ 
 ```
 
-## Syntax Highlighting in the Editor
+## Copy .env.sampple to .env using the following command
+
+```
+$ cp .env.sample .env
+```
+
+## Build docker containers
+```
+ $ docker-compose build
+```
+
+## Start Containers
+```
+ $ docker-compose up
+```
+
+## Run migrations
+```
+ $ docker-compose exec php php artisan:migrate
+```
+
+## Start the scheduler
+```
+ $ docker-compose exec php php artisan schedule:run
+```
+
+The scheduler is set to run on an hourly basis. It will fetch all the news and update the database. You will get latest news by refreshing the news page from the browser.
+
+## Start the queues
+```
+ $ docker-compose exec php php artisan queue:work
+```
+The app is designed to fetch the news first. All comments are then queued and they are loaded in a sequence as the News are also fetched. Comments will take time and will be processed in the background.
+
+## 
+```
+ $ 
+```
+
+
+
+
+
+
+
+
 
 To configure the syntax highlighting in your favorite text editor, head to the [Babel's docs](https://babeljs.io/docs/editors) and follow the instructions. Some of the most popular editors are covered.
 
