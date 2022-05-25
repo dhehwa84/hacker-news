@@ -91,8 +91,8 @@ The scheduler is set to run on an hourly basis. It will fetch all the news and u
 ```
 The app is designed to fetch the news first. All comments are then queued and they are loaded in a sequence as the News are also fetched. Comments will take time and will be processed in the background.
 
-## 
+## Testing
 ```
- $ 
+ $ docker-compose exec php ./vendor/bin/phpunit --filter NewsTest
 ```
 
