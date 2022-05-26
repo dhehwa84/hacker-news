@@ -48,42 +48,42 @@ $ git https://github.com/dhehwa84/hacker-news.git
 **Install**
 
 
-## Copy .env.sampple to .env using the following command
+1. Copy .env.sampple to .env using the following command
 
-```
-$ cp .env.example .env
-```
+  ```
+  $ cp .env.example .env
+  ```
 
-## Build docker containers
-```
- $ docker-compose build
-```
+2. Build docker containers
+  ```
+   $ docker-compose build
+  ```
 
-## Start Containers
-```
- $ docker-compose up
-```
+3. Start Containers
+  ```
+   $ docker-compose up
+  ```
 
-## Run migrations
-```
- $ docker-compose exec php php artisan:migrate
-```
+4. Run migrations
+  ```
+   $ docker-compose exec php php artisan:migrate
+  ```
 
-## Start the scheduler
-```
- $ docker-compose exec php php artisan schedule:run
-```
+5. Start the scheduler
+  ```
+   $ docker-compose exec php php artisan schedule:run
+  ```
 
 The scheduler is set to run on an hourly basis. It will fetch all the news and update the database. You will get latest news by refreshing the news page from the browser.
 
-## Start the queues
-```
- $ docker-compose exec php php artisan queue:work
-```
-The app is designed to fetch the news first. All comments are then queued and they are loaded in a sequence as the News are also fetched. Comments will take time and will be processed in the background.
+6. Start the queues
+  ```
+   $ docker-compose exec php php artisan queue:work
+  ```
+  The app is designed to fetch the news first. All comments are then queued and they are loaded in a sequence as the News are also fetched. Comments will take time and will be processed in the background.
 
-## Testing
-```
- $ docker-compose exec php ./vendor/bin/phpunit --filter NewsTest
-```
+7. Testing
+  ```
+   $ docker-compose exec php ./vendor/bin/phpunit --filter NewsTest
+  ```
 
