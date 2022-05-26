@@ -51,7 +51,7 @@ $ git https://github.com/dhehwa84/hacker-news.git
 ## Copy .env.sampple to .env using the following command
 
 ```
-$ cp .env.sample .env
+$ cp .env.example .env
 ```
 
 ## Build docker containers
