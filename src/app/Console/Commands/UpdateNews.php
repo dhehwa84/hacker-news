@@ -47,9 +47,7 @@ class UpdateNews extends Command
     {
 
         $endpoints = array(
-            'top' => '/v0/topstories.json',
-            'best' => '/v0/beststories.json',
-            'new' => '/v0/newstories.json',
+            'top' => '/v0/topstories.json'
         );
 
         foreach($endpoints as $type => $endpoint){
